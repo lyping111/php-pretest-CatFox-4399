@@ -1,6 +1,6 @@
 <?php
 include 'db.php';
-
+    $alert="";
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = $_POST['email']??'';
         $password = $_POST['password']??'';
@@ -9,6 +9,12 @@ include 'db.php';
         $stmt->bind_param("ss", $email, $password);
         $stmt->execute();
         $result = $stmt->get_result();
+        
+         if ($result->num_rows > 0) {
+              $alert="Login successful!";
+            } else {
+                $alert="Invalid email or password!";
+            }
         }
     
 
@@ -38,16 +44,7 @@ include 'db.php';
     <div class="extra">
         <a href="register.php">Don't have an account? Register here</a>
     </div>
-        <?php
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        if ($result->num_rows > 0) {
-            echo "Login successful!";
-        } else {
-            echo "Invalid email or password!";
-        }
-    }
-
-    ?>
+      <?=$alert?>
   </div>
   
 </body>
